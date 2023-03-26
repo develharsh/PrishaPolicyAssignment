@@ -4,8 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const database_1 = __importDefault(require("./database"));
+const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const routes_1 = __importDefault(require("./routes"));
 const app = (0, express_1.default)();
@@ -14,12 +15,11 @@ const morgan_1 = __importDefault(require("morgan"));
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true, limit: "5mb" }));
-app.use((0, express_fileupload_1.default)());
-const database_1 = __importDefault(require("./database"));
 const dbc = new database_1.default();
 dbc.connect();
 app.use((0, morgan_1.default)("dev"));
 app.use("/v1", routes_1.default);
+app.use("/uploads", express_1.default.static(path_1.default.resolve("uploads")));
 app.use("/test", (_, res) => {
     res.status(200).json({ success: true, message: "Backend is working fine." });
 });
