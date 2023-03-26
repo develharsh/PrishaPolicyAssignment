@@ -14,4 +14,7 @@ router.post("/add", auth_1.isAuthenticated, multer_1.default.fields([
 ]), book_controller_1.add);
 router.get("/get-all", auth_1.isAuthenticated, book_controller_1.getAll);
 router.get("/get/:_id", auth_1.isAuthenticated, book_controller_1.getSpecific);
+router.put("/favourite/toggle/:_id", auth_1.isAuthenticated, book_controller_1.toggleFavourite);
+router.get("/favourite/get", auth_1.isAuthenticated, book_controller_1.getFavourites);
+router.post("/rating/add", auth_1.isAuthenticated, book_controller_1.addRating);
 exports.default = router;

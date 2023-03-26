@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSpecific = exports.getAll = exports.add = void 0;
+exports.getFavourites = exports.addRating = exports.toggleFavourite = exports.getSpecific = exports.getAll = exports.add = void 0;
 const mongoose_1 = require("mongoose");
 const book_model_1 = __importDefault(require("../models/book.model"));
+const favourite_model_1 = __importDefault(require("../models/favourite.model"));
+const rating_model_1 = __importDefault(require("../models/rating.model"));
 const add = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g;
     let response = { success: true };
@@ -94,3 +96,109 @@ const getSpecific = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getSpecific = getSpecific;
+const toggleFavourite = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _h;
+    let response = { success: true };
+    try {
+        let bookId = req.params._id;
+        if (!(0, mongoose_1.isValidObjectId)(bookId))
+            throw { code: 400, message: "Invalid Book ID", implicit: true };
+        bookId = new mongoose_1.Types.ObjectId(bookId);
+        let userId = (_h = req.user) === null || _h === void 0 ? void 0 : _h._id;
+        userId = new mongoose_1.Types.ObjectId(userId);
+        const document = yield favourite_model_1.default.findOne({
+            user: userId,
+            book: bookId,
+        });
+        if (document) {
+            response.message = "Removed from favourites";
+            document.remove();
+        }
+        else {
+            response.message = "Added to favourites";
+            favourite_model_1.default.create({
+                user: userId,
+                book: bookId,
+            });
+        }
+        res.status(200).json(response);
+    }
+    catch (error) {
+        console.log(error);
+        response = { success: false };
+        error.code = error.implicit ? error.code : 500;
+        response.message =
+            error.implicit || error.message ? error.message : "Something went wrong";
+        if (error.detail)
+            response.detail = error.detail;
+        res.status(error.code).json(response);
+    }
+});
+exports.toggleFavourite = toggleFavourite;
+const addRating = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _j;
+    let response = { success: true };
+    const validNumber = new RegExp(/^[0-5]$/);
+    try {
+        let body = req.body;
+        if (!body.book || !(0, mongoose_1.isValidObjectId)(body.book))
+            throw { code: 400, message: "Invalid Book ID", implicit: true };
+        if (!validNumber.test(body.rating.toString()))
+            throw {
+                code: 400,
+                message: "Invalid Rating",
+                implicit: true,
+            };
+        body.book = new mongoose_1.Types.ObjectId(body.book);
+        body.user = new mongoose_1.Types.ObjectId((_j = req.user) === null || _j === void 0 ? void 0 : _j._id);
+        const document = yield rating_model_1.default.findOneAndUpdate({
+            user: body.user,
+            book: body.book,
+        }, {
+            user: body.user,
+            book: body.book,
+            rating: body.rating,
+        }, { upsert: true });
+        if (document)
+            response.message = "Updated Rating";
+        else
+            response.message = "Added Rating";
+        res.status(201).json(response);
+    }
+    catch (error) {
+        console.log(error);
+        response = { success: false };
+        error.code = error.implicit ? error.code : 500;
+        response.message =
+            error.implicit || error.message ? error.message : "Something went wrong";
+        if (error.detail)
+            response.detail = error.detail;
+        res.status(error.code).json(response);
+    }
+});
+exports.addRating = addRating;
+const getFavourites = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _k;
+    let response = { success: true };
+    try {
+        let user = new mongoose_1.Types.ObjectId((_k = req.user) === null || _k === void 0 ? void 0 : _k._id);
+        const Books = yield favourite_model_1.default.find({ user })
+            .populate({
+            path: "book",
+        })
+            .select({ user: false });
+        response.data = Books;
+        res.status(200).json(response);
+    }
+    catch (error) {
+        console.log(error);
+        response = { success: false };
+        error.code = error.implicit ? error.code : 500;
+        response.message =
+            error.implicit || error.message ? error.message : "Something went wrong";
+        if (error.detail)
+            response.detail = error.detail;
+        res.status(error.code).json(response);
+    }
+});
+exports.getFavourites = getFavourites;

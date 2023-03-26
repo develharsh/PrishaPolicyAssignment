@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 import Usermodel from "../models/user.model";
-import { ExtendedRequest } from "../utils/interfaces";
+import { ExtendedRequest, IUser } from "../utils/interfaces";
 
 export const isAuthenticated = async (
   req: ExtendedRequest,
@@ -15,7 +15,7 @@ export const isAuthenticated = async (
       const jwtSecret: any = process.env.JWT_SECRET;
       const payload: any = verify(token, jwtSecret);
 
-      let User = await Usermodel.findById({ _id: payload._id }).lean();
+      let User: IUser = await Usermodel.findById({ _id: payload._id }).lean();
 
       if (!User) throw { message: "Session expired, Please Log In Again" };
       req.user = User;

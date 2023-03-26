@@ -31,6 +31,26 @@ export interface IBook {
   updatedAt?: Date;
 }
 
+export interface IFavourite {
+  _id?: string;
+  user: SchemaDefinitionProperty | Types.ObjectId;
+  book: SchemaDefinitionProperty | Types.ObjectId;
+}
+
+export interface IRating {
+  _id?: string;
+  user: SchemaDefinitionProperty | Types.ObjectId;
+  book: SchemaDefinitionProperty | Types.ObjectId;
+  rating: number;
+}
+
+export interface IRatingBody {
+  _id?: string;
+  user: Types.ObjectId | string | undefined;
+  book: Types.ObjectId | string;
+  rating: number;
+}
+
 export interface ExtendedRequest extends Request {
   user?: IUser;
   files?: any;
