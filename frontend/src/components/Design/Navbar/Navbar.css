@@ -1,0 +1,101 @@
+.navbar {
+  /* top-navbar */
+
+  /* position: absolute; */
+  height: 58px;
+  /* left: 0px; */
+  /* top: 0px; */
+  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3em;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.navbar > .imgblock {
+  height: 50px;
+}
+
+.navbar > .imgblock > .logo {
+  /* PrishaPolicy Logo */
+
+  /* position: absolute; */
+  width: 163.31px;
+  height: 50px;
+  left: 70px;
+  top: 16px;
+  object-fit: cover;
+  /* border: 1px solid red; */
+}
+
+.navbar > .links {
+  /* Frame 27 */
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 40px;
+
+  position: absolute;
+  width: 156px;
+  height: 22px;
+  left: calc(50% - 156px / 2);
+}
+
+.navbar > .links > .block > .link {
+  /* Home */
+
+  width: 71px;
+  height: 22px;
+
+  font-family: "Satoshi", sans-serif;
+  font-style: normal;
+
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+  text-decoration-line: none;
+  text-transform: capitalize;
+
+  /* Brand/Primary */
+
+  color: #27378c;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.navbar > .links > .block > .active {
+  width: 45px;
+  font-weight: 700;
+  text-decoration-line: underline;
+  order: 1;
+}
+
+.navbar > .userblock > .session {
+  display: flex;
+  /* border: 1px solid purple; */
+  align-items: center;
+  gap: 0.4em;
+}
+
+/*--------------------------------------------------------------
+# Phone Navigation
+--------------------------------------------------------------*/
+@media (max-width: 640px) {
+  .navbar {
+    padding: 0 1em;
+  }
+  .navbar > .links {
+    display: none;
+  }
+}
