@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 
 export interface ResponseJSON {
   success: boolean;
@@ -10,7 +9,7 @@ export interface ResponseJSON {
 
 export interface IUser {
   _id?: string;
-  name: string;
+  name?: string;
   email: string;
   password?: string;
   createdAt?: Date;
@@ -45,9 +44,10 @@ export interface IRating {
 
 export interface IGlobalState {
   state?: any;
-  dispatch?: Dispatch<SetStateAction<any>>;
+  dispatch?: any;
   user?: IUser | null;
   loading?: boolean;
+  login?: boolean;
 }
 
 export interface IAction {
@@ -55,5 +55,5 @@ export interface IAction {
   payload?: any;
   AUTH?: string;
   LOADING?: string;
-  THEME?: string;
+  LOGINMODAL?: string;
 }

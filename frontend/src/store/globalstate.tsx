@@ -16,6 +16,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     // alert("T");
     const token: string | undefined = cookie.get("token");
     if (token) {
+      dispatch({ type: ACTIONS.LOADING, payload: true });
       try {
         const response = await axios({
           method: "GET",
@@ -36,6 +37,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         });
         dispatch({ type: ACTIONS.AUTH, payload: null });
       }
+      dispatch({ type: ACTIONS.LOADING, payload: false });
     } else dispatch({ type: ACTIONS.AUTH, payload: null });
   };
 

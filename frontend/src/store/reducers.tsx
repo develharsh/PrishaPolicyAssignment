@@ -13,6 +13,11 @@ const reducers = (state: IGlobalState, action: IAction) => {
         ...state,
         loading: action.payload,
       };
+    case ACTIONS.LOGINMODAL:
+      return {
+        ...state,
+        login: action.payload,
+      };
     default:
       return state;
   }

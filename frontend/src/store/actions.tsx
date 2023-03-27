@@ -1,40 +1,39 @@
 import axios, { AxiosResponse } from "axios";
 import { BASE_URL } from "../utils/hardcoded";
 import cookie from "js-cookie";
-import { ResponseJSON } from "../utils/types";
+import { IUser, ResponseJSON } from "../utils/types";
 
 export const ACTIONS = {
   AUTH: "AUTH",
   LOADING: "LOADING",
+  LOGINMODAL: "LOGINMODAL",
 };
 
-export const LoginReq = async (): Promise<AxiosResponse | ResponseJSON> => {
+export const LoginReq = async (
+  payload: IUser
+): Promise<AxiosResponse | ResponseJSON> => {
   try {
     const response = await axios({
       method: "POST",
-      url: `${BASE_URL}/v1/login`,
-      //   data: payload,
+      url: `${BASE_URL}/v1/user/login`,
+      data: payload,
     });
-    return response.data;
+    return response;
   } catch (err: any) {
-    return { success: false, message: err.response.data.message };
+    return err.response;
   }
 };
-
-export const EmployeesFetchReq = async (): Promise<
-  AxiosResponse | ResponseJSON
-> => {
+export const SignupReq = async (
+  payload: IUser
+): Promise<AxiosResponse | ResponseJSON> => {
   try {
-    const token: string | undefined = cookie.get("token");
     const response = await axios({
-      method: "GET",
-      url: `${BASE_URL}/v1/employee/get`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      method: "POST",
+      url: `${BASE_URL}/v1/user/signup`,
+      data: payload,
     });
-    return response.data;
+    return response;
   } catch (err: any) {
-    return { success: false, message: err.response.data.message };
+    return err.response;
   }
 };

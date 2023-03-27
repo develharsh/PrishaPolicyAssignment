@@ -1,9 +1,10 @@
 import { LoadingOverlay } from "@mantine/core";
 import { useContext } from "react";
 import { DataContext } from "../../store/globalstate";
+import { IGlobalState } from "../../utils/types";
 
 const Loading = () => {
-  const { state } = useContext(DataContext);
+  const { state } = useContext<IGlobalState>(DataContext);
   return (
     <LoadingOverlay
       visible={state.loading}

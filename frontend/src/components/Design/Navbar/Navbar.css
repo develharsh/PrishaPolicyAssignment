@@ -86,6 +86,7 @@
   /* border: 1px solid purple; */
   align-items: center;
   gap: 0.4em;
+  cursor: pointer;
 }
 
 /*--------------------------------------------------------------
