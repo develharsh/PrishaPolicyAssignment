@@ -53,3 +53,39 @@ export const GetAllBooks = async (): Promise<AxiosResponse | ResponseJSON> => {
     return err.response;
   }
 };
+
+export const GetFavourites = async (): Promise<
+  AxiosResponse | ResponseJSON
+> => {
+  try {
+    const token: string | undefined = cookie.get("token");
+    const response = await axios({
+      method: "GET",
+      url: `${BASE_URL}/v1/book/favourite/get`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (err: any) {
+    return err.response;
+  }
+};
+
+export const GetSpecificBook = async (
+  _id: string | undefined
+): Promise<AxiosResponse | ResponseJSON> => {
+  try {
+    const token: string | undefined = cookie.get("token");
+    const response = await axios({
+      method: "GET",
+      url: `${BASE_URL}/v1/book/get/${_id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (err: any) {
+    return err.response;
+  }
+};

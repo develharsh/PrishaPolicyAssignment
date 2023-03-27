@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
-import { GetAllBooks, ACTIONS } from "../../store/actions";
+import { GetFavourites, ACTIONS } from "../../store/actions";
 import { IBook, IGlobalState } from "../../utils/types";
-import "./Home.css";
+import "./Favourites.css";
 import { DataContext } from "../../store/globalstate";
 import { notifications } from "@mantine/notifications";
 import { BsJournalBookmarkFill } from "react-icons/bs";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 interface props {}
 
-const Home: React.FC<props> = (): ReactElement => {
+const Favourites: React.FC<props> = (): ReactElement => {
   const [books, setBooks] = React.useState<IBook[]>([]);
 
   const { state, dispatch } = React.useContext<IGlobalState>(DataContext);
@@ -18,20 +18,20 @@ const Home: React.FC<props> = (): ReactElement => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (state?.user) fetchBooks(setBooks, dispatch);
+    if (state?.user) fetchFavouritesBooks(setBooks, dispatch);
   }, [state?.user]);
 
   return (
     <>
-      <div className="home">
+      <div className="favs">
         <p className="title">
           <span>
             <BsJournalBookmarkFill />
           </span>{" "}
-          My Books
+          My Favourite
         </p>
       </div>
-      <div className="home-books">
+      <div className="favs-books">
         {books.map((each: IBook, index: number) => (
           <div
             className="book"
@@ -47,21 +47,17 @@ const Home: React.FC<props> = (): ReactElement => {
             <p className="author">{each.author}</p>
           </div>
         ))}
-        <div className="upload">
-          <p className="first">+</p>
-          <p className="second">Add a Book</p>
-        </div>
       </div>
     </>
   );
 };
 
-const fetchBooks = async (
+const fetchFavouritesBooks = async (
   setBooks: React.Dispatch<React.SetStateAction<IBook[]>>,
   dispatch: any
 ): Promise<any> => {
   dispatch({ type: ACTIONS.LOADING, payload: true });
-  const response = await GetAllBooks();
+  const response = await GetFavourites();
   dispatch({ type: ACTIONS.LOADING, payload: false });
   if (response.data.success) {
     setBooks(response.data.data);
@@ -74,4 +70,4 @@ const fetchBooks = async (
   }
 };
 
-export default Home;
+export default Favourites;

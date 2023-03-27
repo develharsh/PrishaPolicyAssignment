@@ -1,8 +1,8 @@
-.home {
-  margin: 3em auto 1.5em 3em;
+.favs {
+  margin: 3em auto 1.5em 2em;
 }
 
-.home > .title {
+.favs > .title {
   height: 54px;
 
   font-family: "Satoshi", sans-serif;
@@ -17,13 +17,13 @@
   flex-grow: 0;
 }
 
-.home > .title > span {
+.favs > .title > span {
   top: 0.2em;
   position: relative;
 }
 
-.home-books {
-  margin: 0 3em;
+.favs-books {
+  margin: 0 2em;
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
@@ -31,7 +31,7 @@
   flex-wrap: wrap;
 }
 
-.home-books > .book {
+.favs-books > .book {
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@
   margin-bottom: 3em;
 }
 
-.home-books > .book > .cover {
+.favs-books > .book > .cover {
   /* Book 01 */
 
   width: 190px;
@@ -62,7 +62,7 @@
   flex-grow: 0;
 }
 
-.home-books > .book > .title {
+.favs-books > .book > .title {
   font-family: "Satoshi", sans-serif;
   font-style: italic;
   font-weight: 700;
@@ -79,7 +79,7 @@
   flex-grow: 0;
 }
 
-.home-books > .book > .author {
+.favs-books > .book > .author {
   font-family: "Satoshi", sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -98,7 +98,7 @@
   flex-grow: 0;
 }
 
-.home-books > .upload {
+.favs-books > .upload {
   cursor: pointer;
   margin-bottom: 3em;
   /* Main Upload */
@@ -130,7 +130,7 @@
 # Mobile cum Tab Navigation
 --------------------------------------------------------------*/
 @media (max-width: 1279px) {
-  .home-books {
+  .favs-books {
     justify-content: space-between;
   }
 }
@@ -138,7 +138,7 @@
 # Phone Navigation
 --------------------------------------------------------------*/
 @media (max-width: 640px) {
-  .home-books {
+  .favs-books {
     justify-content: space-evenly;
   }
 }

@@ -3,7 +3,7 @@ import { SchemaDefinitionProperty, Types } from "mongoose";
 
 export interface ResponseJSON {
   success: boolean;
-  data?: Object | Array<any>;
+  data?: any;
   message?: string;
   detail?: string;
   token?: string;

@@ -3,6 +3,7 @@ import { isValidObjectId, Types } from "mongoose";
 import Bookmodel from "../models/book.model";
 import Favouritemodel from "../models/favourite.model";
 import Ratingmodel from "../models/rating.model";
+import { getFavouritesQuery, getSpecificBookQuery } from "../utils/functions";
 import {
   ResponseJSON,
   IBook,
@@ -81,11 +82,64 @@ export const getSpecific = async (
     if (!isValidObjectId(bookId))
       throw { code: 400, message: "Invalid Book ID", implicit: true };
     bookId = new Types.ObjectId(bookId);
-    const Book = await Bookmodel.findById(bookId).populate({
-      path: "addedBy",
-      select: "_id name email",
-    });
+    let userId: string | undefined | Types.ObjectId = req.user?._id;
+    userId = new Types.ObjectId(userId);
+    const Book = await Bookmodel.findById(bookId)
+      .populate({
+        path: "addedBy",
+        select: "_id name email",
+      })
+      .lean();
+    if (!Book)
+      throw { code: 500, message: "No such Book was found", implicit: true };
     response.data = Book;
+    const Favourite = await Favouritemodel.findOne({
+      user: userId,
+      book: bookId,
+    });
+    if (!Favourite) response.data.inFavourite = false;
+    else response.data.inFavourite = true;
+    let Rating = await Ratingmodel.aggregate(getSpecificBookQuery(bookId));
+    let ratingLiteral = {
+      avgRating: 0,
+      reviewCount: 0,
+      recommendation: 0,
+      individualPerc: {
+        5: 0,
+        4: 0,
+        3: 0,
+        2: 0,
+        1: 0,
+      },
+    };
+    response.data.rating = JSON.parse(JSON.stringify(ratingLiteral));
+    try {
+      if (Rating.at(0).count.length > 0) {
+        let data = Rating.at(0);
+        response.data.rating.avgRating = (
+          data.count.at(0).sumOfRating / data.count.at(0)?.count
+        ).toFixed(2);
+        response.data.rating.reviewCount = data.count.at(0)?.count;
+      }
+      if (Rating.at(0).recommended.length > 0) {
+        let data = Rating.at(0);
+        response.data.rating.recommendation = (
+          (data.recommended.at(0)?.count / data.count.at(0).count) *
+          100
+        ).toFixed(2);
+      }
+      if (Rating.at(0).individualCount.length > 0) {
+        let data = Rating.at(0);
+        data.individualCount.map((each: { _id: number; count: number }) => {
+          response.data.rating.individualPerc[each._id.toString()] = parseInt(
+            ((each.count / data.count.at(0).count) * 100).toString()
+          );
+        });
+      }
+    } catch (error: any) {
+      console.log("Calc Error", error);
+      response.data.rating = ratingLiteral;
+    }
     res.status(200).json(response);
   } catch (error: any) {
     console.log(error);
@@ -141,7 +195,7 @@ export const addRating = async (
   res: Response
 ): Promise<any> => {
   let response: ResponseJSON = { success: true };
-  const validNumber = new RegExp(/^[0-5]$/);
+  const validNumber = new RegExp(/^[1-5]$/);
   try {
     let body: IRatingBody = req.body;
     if (!body.book || !isValidObjectId(body.book))
@@ -188,11 +242,8 @@ export const getFavourites = async (
   let response: ResponseJSON = { success: true };
   try {
     let user: Types.ObjectId = new Types.ObjectId(req.user?._id);
-    const Books = await Favouritemodel.find({ user })
-      .populate({
-        path: "book",
-      })
-      .select({ user: false });
+    const Books = await Favouritemodel.aggregate(getFavouritesQuery(user));
+
     response.data = Books;
     res.status(200).json(response);
   } catch (error: any) {
