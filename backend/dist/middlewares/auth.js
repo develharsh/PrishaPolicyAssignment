@@ -32,7 +32,7 @@ const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             throw { message: "Session expired, Please Log In Again" };
     }
     catch (error) {
-        error.message = ["jwt expired", "invalid signature"].includes(error === null || error === void 0 ? void 0 : error.message)
+        error.message = ["jwt expired", "invalid signature", "jwt malformed"].includes(error === null || error === void 0 ? void 0 : error.message)
             ? "Session Expired, Please Log In Again"
             : error.message;
         res.status(401).json({ success: false, message: error.message });

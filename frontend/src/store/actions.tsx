@@ -37,3 +37,19 @@ export const SignupReq = async (
     return err.response;
   }
 };
+
+export const GetAllBooks = async (): Promise<AxiosResponse | ResponseJSON> => {
+  try {
+    const token: string | undefined = cookie.get("token");
+    const response = await axios({
+      method: "GET",
+      url: `${BASE_URL}/v1/book/get-all`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (err: any) {
+    return err.response;
+  }
+};

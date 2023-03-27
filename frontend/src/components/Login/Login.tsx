@@ -125,7 +125,7 @@ const Login: React.FC<props> = (): ReactElement => {
             value={authType}
           />
         </div>
-        {authType == "Login" ? (
+        {authType === "Login" ? (
           <form onSubmit={loginForm.onSubmit((v) => handleSubmit(v))}>
             <TextInput
               withAsterisk

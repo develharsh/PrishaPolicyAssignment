@@ -1,8 +1,21 @@
 import React, { ReactElement } from "react";
 import "./Navbar.css";
 import { RiArrowDownSLine } from "react-icons/ri";
-import { HoverCard, Group, Avatar, Button, Stack, Text } from "@mantine/core";
-import { Location, useLocation } from "react-router-dom";
+import {
+  HoverCard,
+  Group,
+  Avatar,
+  Button,
+  Stack,
+  Text,
+  NavLink,
+} from "@mantine/core";
+import {
+  Location,
+  useLocation,
+  useNavigate,
+  NavigateFunction,
+} from "react-router-dom";
 import { DataContext } from "../../../store/globalstate";
 import { useContext } from "react";
 import { IGlobalState } from "../../../utils/types";
@@ -15,6 +28,7 @@ interface props {}
 const Navbar: React.FC<props> = (): ReactElement => {
   const { state, dispatch } = useContext<IGlobalState>(DataContext);
   const location: Location = useLocation();
+  const navigate: NavigateFunction = useNavigate();
 
   const toggleLogin = (): void => {
     dispatch({ type: ACTIONS.LOGINMODAL, payload: true });
@@ -76,6 +90,16 @@ const Navbar: React.FC<props> = (): ReactElement => {
                   <Text size="sm">
                     Hi <b>{state.user?.name}</b>
                   </Text>
+                  <NavLink
+                    className="navlink"
+                    label="Home"
+                    onClick={() => navigate("/")}
+                  />
+                  <NavLink
+                    className="navlink"
+                    label="Favourites"
+                    onClick={() => navigate("/favourites")}
+                  />
                   <Button
                     variant="gradient"
                     gradient={{ from: "orange", to: "red" }}

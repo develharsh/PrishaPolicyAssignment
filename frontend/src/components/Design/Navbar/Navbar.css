@@ -89,6 +89,10 @@
   cursor: pointer;
 }
 
+.navbar > .userblock > .session .navlink {
+  display: none;
+}
+
 /*--------------------------------------------------------------
 # Phone Navigation
 --------------------------------------------------------------*/
@@ -98,5 +102,8 @@
   }
   .navbar > .links {
     display: none;
+  }
+  .navbar > .userblock > .session .navlink {
+    display: block;
   }
 }

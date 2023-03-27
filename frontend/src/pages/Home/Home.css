@@ -1,0 +1,133 @@
+.home {
+  margin: 3em auto 1.5em 3em;
+}
+
+.home > .title {
+  height: 54px;
+
+  font-family: "Satoshi", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 54px;
+  color: #27378c;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.home > .title > span {
+  top: 0.2em;
+  position: relative;
+}
+
+.home-books {
+  margin: 0 3em;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.home-books > .book {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+
+  width: 190px;
+  height: 328px;
+  /* left: 292px; */
+  /* top: 213px; */
+  margin-bottom: 3em;
+}
+
+.home-books > .book > .cover {
+  /* Book 01 */
+
+  width: 190px;
+  height: 272px;
+
+  filter: drop-shadow(1.87536px 1.87536px 1.87536px rgba(0, 0, 0, 0.25));
+  border-radius: 11.2522px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.home-books > .book > .title {
+  font-family: "Satoshi", sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  /* identical to box height */
+
+  color: #000000;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.home-books > .book > .author {
+  font-family: "Satoshi", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  /* identical to box height */
+
+  /* Grey/700-Ash */
+
+  color: #545454;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.home-books > .upload {
+  cursor: pointer;
+  margin-bottom: 3em;
+  /* Main Upload */
+
+  box-sizing: border-box;
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 4px;
+  gap: 12px;
+
+  /* position: absolute; */
+  width: 190px;
+  height: 275px;
+
+  /* Semantics/White */
+
+  background: #ffffff;
+  /* Blue/700-Bay */
+
+  border: 1px dashed #27378c;
+  border-radius: 8px;
+}
+
+/*--------------------------------------------------------------
+# Phone Navigation
+--------------------------------------------------------------*/
+@media (max-width: 640px) {
+}

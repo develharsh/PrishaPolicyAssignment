@@ -22,7 +22,7 @@ export const isAuthenticated = async (
       next();
     } else throw { message: "Session expired, Please Log In Again" };
   } catch (error: any) {
-    error.message = ["jwt expired", "invalid signature"].includes(
+    error.message = ["jwt expired", "invalid signature", "jwt malformed"].includes(
       error?.message
     )
       ? "Session Expired, Please Log In Again"
